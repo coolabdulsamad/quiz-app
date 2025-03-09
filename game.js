@@ -139,12 +139,10 @@ getNewQuestion = () => {
 choices.forEach((choiceContainer) => {
     choiceContainer.addEventListener("click", (e) => {
         if (!acceptingAnswers) return;
-
         acceptingAnswers = false;
 
-        const selectedChoice = 
-            e.target.closest(".choice-container").querySelector(".choice-text");
-
+        const selectedChoiceContainer = e.target.closest(".choice-container");
+        const selectedChoice = selectedChoiceContainer.querySelector(".choice-text");
         const selectedAnswer = selectedChoice.dataset["number"];
 
         const classToApply =
@@ -154,10 +152,10 @@ choices.forEach((choiceContainer) => {
             incrementScore(10);
         }
 
-        e.target.closest(".choice-container").classList.add(classToApply);
+        selectedChoiceContainer.classList.add(classToApply);
 
         setTimeout(() => {
-            e.target.closest(".choice-container").classList.remove(classToApply);
+            selectedChoiceContainer.classList.remove(classToApply);
             getNewQuestion();
         }, 1000);
     });
