@@ -5,101 +5,110 @@ const scoreText = document.getElementById('score');
 const progressBarFull = document.getElementById('progressBarFull');
 const loader = document.getElementById('loader');
 const game = document.getElementById('game');
+
 let currentQuestion = {};
 let acceptingAnswers = false;
 let score = 0;
 let questionCounter = 0;
-let availableQuesions = [];
+let availableQuestions = [];
 
-let questions = [];
+// ✅ Manually Added Questions (No API)
+let questions = [
+    {
+        question: "What is the capital of France?",
+        choice1: "London",
+        choice2: "Berlin",
+        choice3: "Paris",
+        choice4: "Madrid",
+        answer: 3
+    },
+    {
+        question: "Which programming language is used for web development?",
+        choice1: "Python",
+        choice2: "Java",
+        choice3: "C++",
+        choice4: "JavaScript",
+        answer: 4
+    },
+    {
+        question: "What is 5 + 3?",
+        choice1: "5",
+        choice2: "8",
+        choice3: "10",
+        choice4: "15",
+        answer: 2
+    },
+     // ✅ Added New Questions
+     {
+        question: "What is the largest planet in our solar system?",
+        choice1: "Earth",
+        choice2: "Mars",
+        choice3: "Jupiter",
+        choice4: "Venus",
+        answer: 3
+    },
+    {
+        question: "What is the square root of 64?",
+        choice1: "6",
+        choice2: "8",
+        choice3: "10",
+        choice4: "12",
+        answer: 2
+    }
+];
 
-fetch(
-    'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple'
-)
-    .then((res) => {
-        return res.json();
-    })
-    .then((loadedQuestions) => {
-        questions = loadedQuestions.results.map((loadedQuestion) => {
-            const formattedQuestion = {
-                question: loadedQuestion.question,
-            };
-
-            const answerChoices = [...loadedQuestion.incorrect_answers];
-            formattedQuestion.answer = Math.floor(Math.random() * 4) + 1;
-            answerChoices.splice(
-                formattedQuestion.answer - 1,
-                0,
-                loadedQuestion.correct_answer
-            );
-
-            answerChoices.forEach((choice, index) => {
-                formattedQuestion['choice' + (index + 1)] = choice;
-            });
-
-            return formattedQuestion;
-        });
-
-        startGame();
-    })
-    .catch((err) => {
-        console.error(err);
-    });
-
-//CONSTANTS
-const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
-
+// ✅ Start the Game (Fix: Ensure Loader is Removed)
 startGame = () => {
     questionCounter = 0;
     score = 0;
-    availableQuesions = [...questions];
-    getNewQuestion();
+    availableQuestions = [...questions];
+
+    // 🔥 Fix: Make sure the game is visible & loader is hidden
     game.classList.remove('hidden');
-    loader.classList.add('hidden');
+    loader.style.display = "none";  
+
+    getNewQuestion();
 };
 
+// ✅ Get Next Question
 getNewQuestion = () => {
-    if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+    if (availableQuestions.length === 0 || questionCounter >= questions.length) {
         localStorage.setItem('mostRecentScore', score);
-        //go to the end page
-        return window.location.assign('./end.html');
+        return window.location.assign('./end.html'); // Go to end page
     }
-    questionCounter++;
-    progressText.innerText = `Question ${questionCounter}/${MAX_QUESTIONS}`;
-    //Update the progress bar
-    progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
 
-    const questionIndex = Math.floor(Math.random() * availableQuesions.length);
-    currentQuestion = availableQuesions[questionIndex];
-    question.innerHTML = currentQuestion.question;
+    questionCounter++;
+    progressText.innerText = `Question ${questionCounter}/${questions.length}`;
+    progressBarFull.style.width = `${(questionCounter / questions.length) * 100}%`;
+
+    const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+    currentQuestion = availableQuestions[questionIndex];
+    question.innerText = currentQuestion.question;
 
     choices.forEach((choice) => {
         const number = choice.dataset['number'];
-        choice.innerHTML = currentQuestion['choice' + number];
+        choice.innerText = currentQuestion['choice' + number];
     });
 
-    availableQuesions.splice(questionIndex, 1);
+    availableQuestions.splice(questionIndex, 1);
     acceptingAnswers = true;
 };
 
+// ✅ Handle Answer Selection
 choices.forEach((choice) => {
     choice.addEventListener('click', (e) => {
         if (!acceptingAnswers) return;
-
         acceptingAnswers = false;
+
         const selectedChoice = e.target;
         const selectedAnswer = selectedChoice.dataset['number'];
-
-        const classToApply =
-            selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+        const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
 
         if (classToApply === 'correct') {
-            incrementScore(CORRECT_BONUS);
+            incrementScore(10);
         }
 
         selectedChoice.parentElement.classList.add(classToApply);
-
         setTimeout(() => {
             selectedChoice.parentElement.classList.remove(classToApply);
             getNewQuestion();
@@ -107,7 +116,13 @@ choices.forEach((choice) => {
     });
 });
 
+// ✅ Update Score
 incrementScore = (num) => {
     score += num;
     scoreText.innerText = score;
+};
+
+// ✅ Fix: Start Game when page loads
+window.onload = () => {
+    startGame();
 };
