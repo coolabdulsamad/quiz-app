@@ -38,7 +38,7 @@ let questions = [
         choice4: "15",
         answer: 2
     },
-     // ✅ Added New Questions
+     // ✅ Added New Questions for branch 1
      {
         question: "What is the largest planet in our solar system?",
         choice1: "Earth",
@@ -54,6 +54,47 @@ let questions = [
         choice3: "10",
         choice4: "12",
         answer: 2
+    },
+    // ✅ Added More Questions for branch 2
+    {
+        question: "Which continent is the largest by land area?",
+        choice1: "Africa",
+        choice2: "Asia",
+        choice3: "Europe",
+        choice4: "North America",
+        answer: 2
+    },
+    {
+        question: "Who painted the Mona Lisa?",
+        choice1: "Vincent van Gogh",
+        choice2: "Pablo Picasso",
+        choice3: "Leonardo da Vinci",
+        choice4: "Claude Monet",
+        answer: 3
+    },
+    {
+        question: "What gas do plants absorb from the atmosphere?",
+        choice1: "Oxygen",
+        choice2: "Carbon Dioxide",
+        choice3: "Nitrogen",
+        choice4: "Hydrogen",
+        answer: 2
+    },
+    {
+        question: "Which element has the chemical symbol 'O'?",
+        choice1: "Gold",
+        choice2: "Oxygen",
+        choice3: "Silver",
+        choice4: "Iron",
+        answer: 2
+    },
+    {
+        question: "What is the boiling point of water in Celsius?",
+        choice1: "50°C",
+        choice2: "75°C",
+        choice3: "100°C",
+        choice4: "150°C",
+        answer: 3
     }
 ];
 
