@@ -114,8 +114,8 @@ startGame = () => {
 // ✅ Get Next Question
 getNewQuestion = () => {
     if (availableQuestions.length === 0 || questionCounter >= questions.length) {
-        localStorage.setItem('mostRecentScore', score);
-        return window.location.assign('./end.html'); // Go to end page
+        endGame(); // ✅ Call endGame function
+        return;
     }
 
     questionCounter++;
@@ -157,11 +157,33 @@ choices.forEach((choice) => {
     });
 });
 
-// ✅ Update Score
 incrementScore = (num) => {
     score += num;
     scoreText.innerText = score;
 };
+
+// ✅ Show Score Percentage at the End
+endGame = () => {
+    let totalQuestions = questions.length;
+    let percentageScore = (score / (totalQuestions * 10)) * 100;
+
+    let message = "";
+    if (percentageScore >= 80) {
+        message = "🏆 Excellent! You did great!";
+    } else if (percentageScore >= 50) {
+        message = "😊 Good Job! Keep practicing!";
+    } else {
+        message = "😞 Try Again! You can do better!";
+    }
+
+    // ✅ Store the score and message in localStorage
+    localStorage.setItem("mostRecentScore", score);
+    localStorage.setItem("scoreMessage", message);
+
+    // ✅ Redirect to the end screen
+    return window.location.assign('./end.html');
+};
+
 
 // ✅ Fix: Start Game when page loads
 window.onload = () => {
