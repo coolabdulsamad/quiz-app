@@ -136,26 +136,33 @@ getNewQuestion = () => {
 };
 
 // ✅ Handle Answer Selection
-choices.forEach((choice) => {
-    choice.addEventListener('click', (e) => {
+choices.forEach((choiceContainer) => {
+    choiceContainer.addEventListener("click", (e) => {
         if (!acceptingAnswers) return;
+
         acceptingAnswers = false;
 
-        const selectedChoice = e.target;
-        const selectedAnswer = selectedChoice.dataset['number'];
-        const classToApply = selectedAnswer == currentQuestion.answer ? 'correct' : 'incorrect';
+        const selectedChoice = 
+            e.target.closest(".choice-container").querySelector(".choice-text");
 
-        if (classToApply === 'correct') {
+        const selectedAnswer = selectedChoice.dataset["number"];
+
+        const classToApply =
+            selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+
+        if (classToApply === "correct") {
             incrementScore(10);
         }
 
-        selectedChoice.parentElement.classList.add(classToApply);
+        e.target.closest(".choice-container").classList.add(classToApply);
+
         setTimeout(() => {
-            selectedChoice.parentElement.classList.remove(classToApply);
+            e.target.closest(".choice-container").classList.remove(classToApply);
             getNewQuestion();
         }, 1000);
     });
 });
+
 
 incrementScore = (num) => {
     score += num;
