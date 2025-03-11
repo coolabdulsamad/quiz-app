@@ -12,7 +12,28 @@
     <div class="container">
       <div id="highScores" class="flex-center flex-column">
         <h1 id="finalScore">High Scores</h1>
-        <ul id="highScoresList"></ul>
+        <div class="container">
+          <div id="highScores" class="flex-center flex-column">
+              <h1 id="finalScore">High Scores</h1>
+      
+              <!-- ✅ High Scores Table -->
+              <table id="highScoresTable">
+                  <thead>
+                      <tr>
+                          <th>Rank</th>
+                          <th>Name</th>
+                          <th>Score</th>
+                      </tr>
+                  </thead>
+                  <tbody id="highScoresBody">
+                      <!-- Scores will be inserted here by JS -->
+                  </tbody>
+              </table>
+      
+              <a class="btn" href="index.html">Go Home</a>
+          </div>
+      </div>
+      
         <a class="btn" href="index.html">Go Home</a>
       </div>
     </div>
