@@ -11,4 +11,4 @@ highScoresBody.innerHTML = highScores
         <td>${score.score}</td>
       </tr>`;
   })
-  .join("");
+  .join("m");
