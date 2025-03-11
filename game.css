@@ -18,11 +18,24 @@
   margin: 10px 0;
   cursor: pointer;
   transition: transform 0.2s ease-in-out, background 0.3s;
+  width: 100%; /* ✅ Ensure full width is clickable */
 }
 
 .choice-container:hover {
   background: #d1e7fd;
   transform: scale(1.05);
+}
+
+/* ✅ Make the Entire Box Clickable */
+.choice-container p {
+  width: 100%;
+  text-align: left;
+  padding: 15px;
+  margin: 0;
+}
+
+.choice-text{
+  font-size: 15px;
 }
 
 /* ✅ Highlight Correct & Incorrect Answers */
